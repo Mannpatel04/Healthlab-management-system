@@ -1,0 +1,256 @@
+<?php
+session_start();
+include "secadm.php";
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel - HealthLab</title>
+
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets/vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="assets/vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+    <?php
+	include "nav.php";
+	?> 
+	
+	 
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar p-0 fixed-top d-flex flex-row">
+          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+          </div>
+          <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+              <span class="mdi mdi-menu"></span>
+            </button>
+
+            <ul class="navbar-nav navbar-nav-right">
+              <li class="nav-item dropdown">
+                <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
+                  <div class="navbar-profile">
+                    <img class="img-xs rounded-circle" src="assets/images/faces-clipart/logo2.jpg" alt="">
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Lab</p>
+                    <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                  </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
+                  <h6 class="p-3 mb-0">Profile</h6>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item preview-item">
+                    <div class="preview-thumbnail">
+                      <div class="preview-icon bg-dark rounded-circle">
+                        <i class="mdi mdi-settings text-success"></i>
+                      </div>
+                    </div>
+                    <div class="preview-item-content">
+                      <p class="preview-subject mb-1">Settings</p>
+                    </div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item preview-item" href=logout.php>
+                    <div class="preview-thumbnail">
+                      <div class="preview-icon bg-dark rounded-circle">
+                        <i class="mdi mdi-logout text-danger"></i>
+                      </div>
+                    </div>
+                    <div class="preview-item-content">
+                      <p class="preview-subject mb-1">Log out</p>
+                    </div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <p class="p-3 mb-0 text-center">Advanced settings</p>
+                </div>
+              </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+              <span class="mdi mdi-format-line-spacing"></span>
+            </button>
+          </div>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Dangue </h3>
+              
+            </div>
+            <div class="row">
+                    
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <?php
+                    $em=$_GET['email'];
+                    $reqid=$_GET['reqid'];
+                    
+                    include "myconnection.php";
+                    $qins="select * from dangue where reqid='$reqid'";
+                    $resultins=mysqli_query($connection,$qins);
+                    while($arr=mysqli_fetch_array($resultins))
+                    {
+                    
+                    ?>
+                    
+                    <form method="post" action="reqdangue.php" name="frmlab" class="form-sample">
+					
+					 <div class="row">
+                         <table width=600>
+                         <tr>
+                            <td>Email</td>
+                            <td><?php echo $arr['email'] ?></td>
+                            
+                        </tr>    
+                        <tr>
+                            <td>Reqid</td>
+                            <td><?php echo $arr['reqid'] ?></td>
+                            
+                        </tr>    
+                        <tr>
+                            <td>Haemoglobin</td>
+                            <td><?php echo $arr['haemoglobin'] ?></td>
+                            <td>g/dl</td>
+                            <td>13-17</td>
+
+                        </tr>    
+                        <tr>
+                            <td>Total WBC Count</td>
+                            <td><?php echo $arr['totalwbccount'] ?></td>
+                            <td>/ul</td>
+                            <td>4000-11000</td>
+                        </tr>  
+                        <tr>
+                            <td>Platelet</td>
+                            <td><?php echo $arr['platelet'] ?></td>
+                            <td>/ul</td>
+                            <td>150000-450000</td>
+                        </tr>      
+                        <tr>
+                            <td>RBC Count</td>
+                            <td><?php echo $arr['rbccount'] ?></td>
+                            <td>million/cumm</td>
+                            <td>4.6-6.2</td>
+                        </tr>   
+                        <tr>
+                            <td colspan=3><b><u>Blood Indices</u></b></td>
+                        </tr>      
+                        <tr>
+                            <td>HCT(PCV)</td>
+                            <td><?php echo $arr['hct(pcv)'] ?></td>
+                            <td>%</td>
+                            <td>40-54</td>
+                        </tr>
+                        <tr>
+                            <td>MCV</td>
+                            <td><?php echo $arr['mcv'] ?></td>
+                            <td>fl</td>
+                            <td>80-100</td>
+                        </tr>
+                        <tr>
+                            <td>MCH</td>
+                            <td><?php echo $arr['mch'] ?></td>
+                            <td>pg</td>
+                            <td>27-34</td>
+                        </tr>
+                        <tr>
+                            <td>MCHC</td>
+                            <td><?php echo $arr['mchc'] ?></td>
+                            <td>g/dl</td>
+                            <td>30-36</td>
+                        </tr>
+                        <tr>
+                            <td><b><u>Differential Count</u></b></td>
+                            
+                          
+</tr>
+                           
+                       <tr>
+                            <td></td>
+                            <td><b>Result</b></td>
+                            <td><b>Unit</b></td>
+                            <td><b>Reference Interval</b></td>
+</tr>
+                        <tr>
+                            <td>Neutrophil</td>
+                            <td><?php echo $arr['neutrophil'] ?> </td>
+                            <td>%</td>
+                            <td>50-70</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td>Lymphocyte</td>
+                            <td><?php echo $arr['lymphocyte'] ?> </td>
+                            <td>%</td>
+                            <td>20-40</td>
+                            
+                        </tr>
+                        <tr>
+                            <td>Monocyte</td>
+                            <td><?php echo $arr['monocyte'] ?> </td>
+                            <td>%</td>
+                            <td>3-6</td>
+                            
+                        </tr>
+                       
+</tr>
+                        </table>
+                       
+                      </div>
+					  
+					  
+                    
+                      
+                     
+</form>
+                    <?php 
+                    }
+
+                    echo "<a href=pdf.php?type=dangue&rid=". $reqid.">Generate PDF</a>";
+                    ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Develope by Ritisha Dobariya & Prarthana Hirpara</span>
+            </div>
+          </footer>
+        </div>
+
+      </div>
+
+    </div>
+ 
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="assets/vendors/select2/select2.min.js"></script>
+    <script src="assets/vendors/typeahead.js/typeahead.bundle.min.js"></script>
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/misc.js"></script>
+    <script src="assets/js/settings.js"></script>
+    <script src="assets/js/todolist.js"></script>
+
+    <script src="assets/js/file-upload.js"></script>
+    <script src="assets/js/typeahead.js"></script>
+    <script src="assets/js/select2.js"></script>
+
+  </body>
+</html>
